@@ -11,9 +11,22 @@ app = Flask(__name__)
 load_dotenv()
 
 
-API_KEY = os.getenv('API_KEY')
-INDEX_ID = os.getenv('INDEX_ID')
-BASE_URL = "https://api.twelvelabs.io/v1.2"
+try:
+    API_KEY = os.getenv('TWELVELABS_API_KEY')
+    if not API_KEY:
+        raise ValueError("TWELVELABS_API_KEY is not set in the environment variables.")
+except Exception as e:
+    app.logger.error(f"Error loading API_KEY: {str(e)}")
+    raise
+
+try:
+    INDEX_ID = os.getenv('TWELVELABS_INDEX_ID')
+    if not INDEX_ID:
+        raise ValueError("TWELVELABS_INDEX_ID is not set in the environment variables.")
+except Exception as e:
+    app.logger.error(f"Error loading INDEX_ID: {str(e)}")
+    raise
+BASE_URL = "https://api.twelvelabs.io/v1.3"
 REPORTS_DIR = os.path.join('static', 'reports')
 
 
